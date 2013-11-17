@@ -35,15 +35,29 @@ function generatePortfolio(data){
 function BlackScholes(PutCallFlag, S, X, T, r, v) {
 
   var d1, d2;
+  var greeks = {'delta': 0.0, 'gama': 0.0,'theta': 0.0 ,'vega': 0.0, 'rho': 0.0}
+  var premium = 0.0;
 
   d1 = (Math.log(S / X) + (r + v * v / 2.0) * T) / (v * Math.sqrt(T));
   d2 = d1 - v * Math.sqrt(T);
 
-  if (PutCallFlag == "c") 
-    return S * CND(d1)-X * Math.exp(-r * T) * CND(d2);
-  else
-    return X * Math.exp(-r * T) * CND(-d2) - S * CND(-d1);
+  greeks['gamma'] = CND(d1) * (X*v*Math.sqrt(T));
 
+  if (PutCallFlag == "c") {
+    premium = S * CND(d1)-X * Math.exp(-r * T) * CND(d2);     
+    greeks['delta'] = CND(d1);
+    greeks['vega'] = S * CND(d1) * Math.sqrt(T);
+    greeks['theta'] = -S * CND(d1) * v / (2 * Math.sqrt(T)) - r * X * Math.exp(-r * T) * CND(d2) ;
+    greeks['rho'] = X * T * Math.exp(-r * T) * CND(d2);
+  }
+  else {
+    premium = X * Math.exp(-r * T) * CND(-d2) - S * CND(-d1);
+    greeks['delta'] = CND(-d1);
+    greeks['vega'] = X * Math.exp(-r * T) * CND(d2) * Math.sqrt(T);
+    greeks['theta'] = -S * CND(d1) * v / (2 * Math.sqrt(T)) + r * X * Math.exp(-r * T) * CND(-d2) ;
+    greeks['rho'] = -X * T * Math.exp(-r * T) * CND(-d2);
+  }
+  return [premium , greeks];
 }
 
 /* The cummulative Normal distribution function: */
@@ -59,39 +73,6 @@ function CND(x){
 }
 
 
-function Greeks(PutCallFlag, S, X, T, r, v){
-
-/*  greeks = {'delta': 0.0, 'gama': 0.0,'theta': 0.0 ,'vega': 0.0, 'rho': 0.0}*/
-  greeks = {'delta': 1.0, 'gamma': 2.0,'theta': 3.0 ,'vega': 4.0, 'rho': 5.0}
-
-  var d1, d2;
-  d1 = (Math.log(S / X) + (r + v * v / 2.0) * T) / (v * Math.sqrt(T));
-  d2 = d1 - v * Math.sqrt(T);
-
-
-    greeks['gamma'] = CND(d1) * (X*v*Math.sqrt(T));
-
-  if (PutCallFlag == "c") {
-    greeks['delta'] = CND(d1);
-    greeks['vega'] = S * CND(d1) * Math.sqrt(T);
-    greeks['theta'] = -S * CND(d1) * v / (2 * Math.sqrt(T)) - r * X * Math.exp(-r * T) * CND(d2) ;
-    greeks['rho'] = X * T * Math.exp(-r * T) * CND(d2);
-  }
-  else {
-    greeks['delta'] = CND(-d1);
-    greeks['vega'] = X * Math.exp(-r * T) * CND(d2) * Math.sqrt(T);
-    greeks['theta'] = -S * CND(d1) * v / (2 * Math.sqrt(T)) + r * X * Math.exp(-r * T) * CND(-d2) ;
-    greeks['rho'] = -X * T * Math.exp(-r * T) * CND(-d2);
-  }
-    
-
-
-
-  
-
-  return greeks;
-}
-
 $(document).ready(function() {
 
   $("button[name=calcular]").click(function(){
@@ -100,20 +81,19 @@ $(document).ready(function() {
       var S = Number($("input[name=precoAtivo]").val());
       var X = Number($("input[name=strike]").val());
       var T = Number($("input[name=dias]").val()/252);
-      var r = Number($("input[name=txJuros]").val());
-      var v = Number($("input[name=volatilidade]").val());      
-      var p = BlackScholes(tipo,S,X,T,r,v);
+      var r = Number($("input[name=txJuros]").val()/100.0);
+      var v = Number($("input[name=volatilidade]").val()/100.0);      
+      var bs = BlackScholes(tipo,S,X,T,r,v);
       var vI = S > X ? parseFloat(S-X).toFixed(2) : 0 ; 
+      var vE = bs[0] > (S - X) ? parseFloat(bs[0] - (S - X)).toFixed(2) : 0;      
 
-      var vE = p > (S - X) ? parseFloat(p - (S - X)).toFixed(2) : 0;      
-
-      $("span[name=precoTeorico]").text(parseFloat(p).toFixed(2));
+      $("span[name=precoTeorico]").text(parseFloat(bs[0]).toFixed(2));
       $("span[name=valorIntrinseco]").text(vI);
       $("span[name=valorExtrinseco]").text(vE);
       
 
-      var greeks = Greeks(tipo,S,X,T,r,v);
-      $.each(greeks, function(i,e){
+      /*var greeks = Greeks(tipo,S,X,T,r,v);*/
+      $.each(bs[1], function(i,e){
           $("span[name="+i+"]").text(parseFloat(e).toFixed(2));
       });
 
