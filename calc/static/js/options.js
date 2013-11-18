@@ -1,3 +1,5 @@
+var ano_base = 360;
+
 function getDecimalValue(s){
     return parseFloat(s.replace(/\,/,".")).toFixed(2);
 }
@@ -41,20 +43,20 @@ function BlackScholes(PutCallFlag, S, X, T, r, v) {
   d1 = (Math.log(S / X) + (r + v * v / 2.0) * T) / (v * Math.sqrt(T));
   d2 = d1 - v * Math.sqrt(T);
 
-  greeks['gamma'] = CND(d1) * (X*v*Math.sqrt(T));
+  greeks['gamma'] = ND(d1) / (S*v*Math.sqrt(T));
 
   if (PutCallFlag == "c") {
     premium = S * CND(d1)-X * Math.exp(-r * T) * CND(d2);     
     greeks['delta'] = CND(d1);
-    greeks['vega'] = S * CND(d1) * Math.sqrt(T);
-    greeks['theta'] = -S * CND(d1) * v / (2 * Math.sqrt(T)) - r * X * Math.exp(-r * T) * CND(d2) ;
+    greeks['vega'] = S * ND(d1) * Math.sqrt(T);
+    greeks['theta'] = (-S * ND(d1) * v / (2 * Math.sqrt(T)) - r * X * Math.exp(-r * T) * CND(d2))/ano_base ;
     greeks['rho'] = X * T * Math.exp(-r * T) * CND(d2);
   }
   else {
     premium = X * Math.exp(-r * T) * CND(-d2) - S * CND(-d1);
-    greeks['delta'] = CND(-d1);
-    greeks['vega'] = X * Math.exp(-r * T) * CND(d2) * Math.sqrt(T);
-    greeks['theta'] = -S * CND(d1) * v / (2 * Math.sqrt(T)) + r * X * Math.exp(-r * T) * CND(-d2) ;
+    greeks['delta'] = -CND(-d1);
+    greeks['vega'] = X * Math.exp(-r * T) * ND(d2) * Math.sqrt(T);
+    greeks['theta'] = (-S * ND(d1) * v / (2 * Math.sqrt(T)) + r * X * Math.exp(-r * T) * CND(-d2))/ano_base ;
     greeks['rho'] = -X * T * Math.exp(-r * T) * CND(-d2);
   }
   return [premium , greeks];
@@ -72,31 +74,111 @@ function CND(x){
 
 }
 
+/* The Normal distribution function: */
+function ND(x){
+  return Math.exp(-(x*x)/2)/Math.sqrt(2*Math.PI);
+}
+
+function selecionaPainel(painel){
+  var paineis = ["calculadora","volatidade","acoes"];
+  $.each(paineis, function(i,e){
+    if (e != painel) $("div[id="+e+"]").hide();
+    else $("div[id="+e+"]").show();
+  });
+}
+
+function impliedVolatility(PutCallFlag, S, X, T, r, v){
+  /*initial guess from bovespa */
+  var error = 0.0002;
+  var sigma = 0.0;
+  var sigma_zero = -100.0;
+  var bs = 0.0; 
+  var max_iterations = 10;
+  var i = 0;
+  var market_price = 0.0;
+  
+  /*TODO get market price from Yahoo / Bovespa */
+  /* TODO initial guess */
+  v == 0 ? sigma = 0.1 : sigma = v;
+  
+  while ( (Math.abs((sigma - sigma_zero)/sigma) > error) || (i< 10)){
+    bs = BlackScholes(PutCallFlag,S,X,T,r,sigma)
+    sigma_zero = sigma
+    sigma = sigma - (bs[0] - 1.974)/bs[1]['vega'];
+    i++;
+  }
+  return sigma;
+}
 
 $(document).ready(function() {
+  $.ajaxSetup({ timeout: 0 });
 
+  $("li a").click(function(){
+    $.each($(".painel"), function(i,e){
+      $(e).addClass("hidden");
+    });
+    $(".painel[id="+$(this).text().toLowerCase()+"]").removeClass("hidden");
+  });
+  
   $("button[name=calcular]").click(function(){
   /*S= Stock price, X = strike, T = time (days /year), r= risk free (year), v = volatility(year), vi = intriseco , ve= extrinseco*/
       var tipo = "c";
-      var S = Number($("input[name=precoAtivo]").val());
-      var X = Number($("input[name=strike]").val());
-      var T = Number($("input[name=dias]").val()/252);
-      var r = Number($("input[name=txJuros]").val()/100.0);
-      var v = Number($("input[name=volatilidade]").val()/100.0);      
+      var S = Number(getDecimalValue($("input[name=precoAtivo]").val()));
+      var X = Number(getDecimalValue($("input[name=strike]").val()));
+      var T = Number($("input[name=dias]").val()/ano_base);
+      var r = Number(getDecimalValue($("input[name=txJuros]").val())/100.0);
+      var v = Number(getDecimalValue($("input[name=volatilidade]").val())/100.0);
       var bs = BlackScholes(tipo,S,X,T,r,v);
-      var vI = S > X ? parseFloat(S-X).toFixed(2) : 0 ; 
-      var vE = bs[0] > (S - X) ? parseFloat(bs[0] - (S - X)).toFixed(2) : 0;      
+      var vI = S > X ? parseFloat(S-X).toFixed(2) : 0 ;
+      var vE = bs[0] > (S - X) ? parseFloat(bs[0] - (S - X)).toFixed(2) : 0;
 
       $("span[name=precoTeorico]").text(parseFloat(bs[0]).toFixed(2));
       $("span[name=valorIntrinseco]").text(vI);
       $("span[name=valorExtrinseco]").text(vE);
       
 
-      /*var greeks = Greeks(tipo,S,X,T,r,v);*/
+      /*Exibindo as gregas*/
       $.each(bs[1], function(i,e){
-          $("span[name="+i+"]").text(parseFloat(e).toFixed(2));
+          $("span[name="+i+"]").text(parseFloat(e).toFixed(4));
       });
+  });
+  
+  /* auto-refresh ao escolher um ativo*/
+  $("input[name=inputStock]").focusout(function() {
+    /*obtem volatilidade do site da bovespa (periodo anualizado de 3 meses por padrao)*/
+    var loading = $("span[name=loading]").html();
+    $("span[name=loading]").html('<img src="/static/img/ajax-loader.gif" />');
+    $.get("/calc/api/getVolatility/"+$(this).val())
+      .done(function(data){
+         $("input[name=volatilidade]").val(data['volatility']);
+       })
+      .fail(function(){
+        alert("Nao foi possível obter a volatilidade do ativo através do site da bovespa");
+      })
+      .always(function(){
+        $("span[name=loading]").html(loading);
+      })
+    });
 
+  /* auto-refresh ao escolher um ativo para obter o preço*/
+  $("input[name=inputStock-volatility]").focusout(function() {
+    /*obtem preço do ativo consultando o site bmf bovespa*/
+    var loading = $("span[name=loading-vol]").html();
+    $("span[name=loading-vol]").html('<img src="/static/img/ajax-loader.gif" />');
+    $.get("/calc/api/getQuote/"+$(this).val())
+      .done(function(data){
+         $("span[name=precoOpcao]").text(data['price']);
+       })
+      .fail(function(){
+        alert("Nao foi possível obter a cotação do ativo através do site da bovespa");
+      })
+      .always(function(){
+        $("span[name=loading-vol]").html(loading);
+      })
+    });
 
-  });       
+  /*Ativa os tooltips*/
+  $("input[name=volatilidade]").tooltip();
+  $("input[name=txJuros]").tooltip();
+
 });

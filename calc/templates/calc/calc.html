@@ -2,18 +2,34 @@
       {% block header %} 
         <div class="header">
           <ul class="nav nav-pills pull-right">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li class="active"><a name="calculadora" href="#">Calculadora</a></li>
+            <li><a name="volatilidade" href="#">Volatilidade</a></li>
+            <li><a name="acoes" href="#">Ações</a></li>
           </ul>
           <h3 class="text-muted">Calculadora de Opções</h3>
         </div>
       {% endblock %}
       
       {% block main %} 
-        <div class="col-sm-12" style="box-shadow: 2px 2px 10px #888888; padding: 20px 30px;" >
-          <div class="row"><h1>Calculadora de Opções<small>   Black and Scholes</small></h1></div>
-
+        <div id="calculadora" class="col-sm-12 painel" style="box-shadow: 2px 2px 10px #888888; padding: 20px 30px;" >
+          <div class="row"><h1>Calculadora de Opções&nbsp&nbsp&nbsp&nbsp<small>Black and Scholes</small></h1></div>
+          <!--escolha do ativo -->
+          <div class="row">
+            <div class="col-sm-6">
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label for="inputStock" class="col-sm-4 control-label">Ativo</label>
+                  <div class="col-sm-8">
+                    <input class="form-control" name="inputStock" placeholder="Escolha um ativo" />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-sm-6 text-left" >
+              <span name="loading"><h3><small>(opcional)</small></h3></span>
+            </div>
+          </div>
+          <!-- /escolha do ativo -->
           <!-- painel -->
           <div class="row">
             <!-- left -->
@@ -38,19 +54,19 @@
                   <div class="form-group">
                     <label class="col-sm-6 control-label">Volatilidade</label>
                     <div class="col-sm-6">
-                      <input name="volatilidade" class="form-control input-lg" type="text" placeholder="13.4%">
+                      <input name="volatilidade" class="form-control input-lg" type="text" placeholder="13.4%" data-toggle="tooltip" title="%a.a" data-trigger="focus" data-placement="right">
                     </div>
-                  </div>                    
+                  </div>
                   <div class="form-group">
                     <label class="col-sm-6 control-label">Dias até o Vencimento</label>
                     <div class="col-sm-6">
                       <input name="dias" class="form-control input-lg" type="text" placeholder="25">
                     </div>
-                  </div>                    
+                  </div>
                   <div class="form-group">
                     <label class="col-sm-6 control-label">Taxa de Juros</label>
                     <div class="col-sm-6">
-                      <input name="txJuros" class="form-control input-lg" type="text" placeholder="9.5">
+                      <input name="txJuros" class="form-control input-lg" type="text" value="9,5" data-toggle="tooltip" title="%a.a" data-trigger="focus" data-placement="right" />
                     </div>
                   </div>
                 </form>
@@ -64,15 +80,15 @@
               </div>
               <!-- resultados -->
               <div class="row" name="precoTeorico">  
-                <div class="col-sm-8 text-right"><h1>Preço Teórico</h1></div><div class="col-sm-4 text-left"><h1><span class="label label-primary" name="precoTeorico">12,50</span></h1></div>
-                <div class="col-sm-8 text-right"><h3>Valor Intrínseco</h3></div><div class="col-sm-4 text-left"><h3><span class="label label-primary" name="valorIntrinseco">12,50</span></h3></div>
-                <div class="col-sm-8 text-right"><h3>Extrínseco</h3></div><div class="col-sm-4 text-left"><h3><span class="label label-primary" name="valorExtrinseco">12,50</span></h3></div>
+                <div class="col-sm-8 text-right"><h1>Preço Teórico</h1></div><div class="col-sm-4 text-left"><h1><span class="label label-primary" name="precoTeorico"></span></h1></div>
+                <div class="col-sm-8 text-right"><h3>Valor Intrínseco</h3></div><div class="col-sm-4 text-left"><h3><span class="label label-primary" name="valorIntrinseco"></span></h3></div>
+                <div class="col-sm-8 text-right"><h3>Extrínseco</h3></div><div class="col-sm-4 text-left"><h3><span class="label label-primary" name="valorExtrinseco"></span></h3></div>
               </div>
               <!-- /resultados -->
               <!-- gregas-->
               <div class="row">
                 <!-- gregas_left -->
-                <div class="col-sm-5 col-sm-offset-1 ">
+                <div class="col-sm-6">
                   <ul class="list-group" name="gregas">
                     <li class="list-group-item">
                       <span name="delta" class=" badge"></span>
@@ -90,7 +106,7 @@
                 </div>
                 <!-- /gregas_left -->
                 <!-- gregas_right -->
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <ul class="list-group" name="gregas">
                     <li class="list-group-item">
                       <span name="vega" class="badge"></span>
@@ -117,6 +133,133 @@
             <!-- /center button -->            
         </div>
        <!-- /painel -->         
+       
+       
+       
+       <!-- Volatilidade Implicita -->
+         <div id="volatilidade" class="col-sm-12 painel hidden" style="box-shadow: 2px 2px 10px #888888; padding: 20px 30px;" >
+          <div class="row"><h1>Calculo de Volatilidade&nbsp&nbsp&nbsp&nbsp<small>Black and Scholes</small></h1></div>
+          <!--escolha do ativo -->
+          <div class="row">
+            <div class="col-sm-6">
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label for="inputStock" class="col-sm-6 control-label">Ativo Objeto</label>
+                  <div class="col-sm-6">
+                    <input class="form-control" name="inputStock" placeholder="Escolha um ativo" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputStock-volatility" class="col-sm-6 control-label">Opção</label>
+                  <div class="col-sm-6">
+                    <input class="form-control" name="inputStock-volatility" placeholder="Escolha um ativo" />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-sm-6"><span name="loading-vol"></span></div>
+          </div>
+          <!-- /escolha do ativo -->
+          <!-- painel -->
+          <div class="row">
+            <!-- left -->
+            <div class="col-sm-4" name="inputs">
+              <div class="row">  
+                <h2>Inputs</h2>
+              </div>
+              <div class="row" name="inputs">  
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label">Strike</label>
+                    <div class="col-sm-6">
+                      <input name="strike-vol" class="form-control input-lg" type="text" placeholder="22.00"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label">Preço do Ativo</label>
+                    <div class="col-sm-6">
+                      <input name="precoAtivo-vol" class="form-control input-lg" type="text" placeholder="26.00"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label">Dias até o Vencimento</label>
+                    <div class="col-sm-6">
+                      <input name="dias-vol" class="form-control input-lg" type="text" placeholder="25">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label">Taxa de Juros</label>
+                    <div class="col-sm-6">
+                      <input name="txJuros" class="form-control input-lg" type="text" value="9,5" data-toggle="tooltip" title="%a.a" data-trigger="focus" data-placement="right" />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!--left -->
+            <!-- right -->
+            <div class="col-sm-6 col-sm-offset-2" name="resultado">
+              <div class="row">  
+                <h2>Dados de Mercado</h2>
+              </div>
+              <!-- resultados -->
+              <div class="row" name="precoTeorico">  
+                <div class="col-sm-8 text-right"><h1>Preço Teórico</h1></div><div class="col-sm-4 text-left"><h1><span class="label label-primary" name="precoTeorico"></span></h1></div>
+                <div class="col-sm-8 text-right"><h3>Preço Opção</h3></div><div class="col-sm-4 text-left"><h3><span class="label label-primary" name="precoOpcao"></span></h3></div>
+                <div class="col-sm-8 text-right"><h3>Extrínseco</h3></div><div class="col-sm-4 text-left"><h3><span class="label label-primary" name="valorExtrinseco"></span></h3></div>
+              </div>
+              <!-- /resultados -->
+              <!-- gregas-->
+              <div class="row">
+                <!-- gregas_left -->
+                <div class="col-sm-6">
+                  <ul class="list-group" name="gregas">
+                    <li class="list-group-item">
+                      <span name="delta" class=" badge"></span>
+                      Delta
+                    </li>
+                    <li class="list-group-item">
+                      <span name="gamma" class="badge"></span>
+                      Gama
+                    </li>
+                    <li class="list-group-item">
+                      <span name="theta" class="badge "></span>
+                      Theta
+                    </li>
+                  </ul>
+                </div>
+                <!-- /gregas_left -->
+                <!-- gregas_right -->
+                <div class="col-sm-6">
+                  <ul class="list-group" name="gregas">
+                    <li class="list-group-item">
+                      <span name="vega" class="badge"></span>
+                      Vega
+                    </li>
+                    <li class="list-group-item">
+                      <span name="rho" class="badge"></span>
+                      Rho
+                    </li>
+                  </ul>
+                </div>
+                <!-- /gregas_right -->
+              </div>
+              <!-- /gregas -->
+            </div>          
+            <!--/right-->
+          </div>
+            <!-- center button -->
+            <div class="row">
+              <div class="col-sm-12 text-center">
+                <button type="button" class="btn btn-lg btn-primary" name="calcular">Calcular</button>
+              </div>
+            </div>
+            <!-- /center button -->            
+        </div>
+        <!-- /painel -->
+       <!-- Volatilidade Implicita -->
+       
+       
       {% endblock %}
         
       {% block footer %}
