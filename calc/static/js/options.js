@@ -153,75 +153,79 @@ $(document).ready(function() {
       var marketPrice = Number(getDecimalValue($("input[name=precoOpcao-vol]").val()));
       var im = impliedVolatility(tipo, S, X, T, r, 0.0,marketPrice);
 
-      $("span[name=volatilidadeImplicita]").text(parseFloat(im).toFixed(4));
+      $("span[name=volatilidadeImplicita]").text(parseFloat(im*100.0).toFixed(2)+'%');
   });
   
   /* auto-refresh ao escolher um ativo*/
-  $("input[name=inputStock]").focusout(function() {
-    /*obtem volatilidade do site da bovespa (periodo anualizado de 3 meses por padrao)*/
-    $("span[name=loading-vol-bs]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $.get("/calc/api/getVolatility/"+$(this).val().toUpperCase())
-      .done(function(data){
-         $("input[name=volatilidade]").val(data['volatility']);
-       })
-      .fail(function(){
-        alert("Nao foi possível obter a volatilidade do ativo através do site da bovespa");
-      })
-      .always(function(){
-        $("span[name=loading-vol-bs]").html('');
-      })
-    /*obtem preço do papel site da bovespa*/
-    $("span[name=loading-price-bs]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $.get("/calc/api/getQuote/"+$(this).val())
-      .done(function(data){
-         $("input[name=precoAtivo]").val(data['price']);
-       })
-      .fail(function(){
-        alert("Nao foi possível obter a cotação do ativo através do site da bovespa");
-      })
-      .always(function(){
-        $("span[name=loading-price-bs]").html('');
-      })
+  $("input[name=inputStock]").keydown(function(event) {
+    if (event.which == 13 || event.which == 9 ){
+      /*obtem volatilidade do site da bovespa (periodo anualizado de 3 meses por padrao)*/
+      $("span[name=loading-vol-bs]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+      $.get("/calc/api/getVolatility/"+$(this).val().toUpperCase())
+        .done(function(data){
+           $("input[name=volatilidade]").val(data['volatility']);
+         })
+        .fail(function(){
+          alert("Nao foi possível obter a volatilidade do ativo através do site da bovespa");
+        })
+        .always(function(){
+          $("span[name=loading-vol-bs]").html('');
+        })
+      /*obtem preço do papel site da bovespa*/
+      $("span[name=loading-price-bs]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+      $.get("/calc/api/getQuote/"+$(this).val().toUpperCase())
+        .done(function(data){
+           $("input[name=precoAtivo]").val(data['price']);
+         })
+        .fail(function(){
+          alert("Nao foi possível obter a cotação do ativo através do site da bovespa");
+        })
+        .always(function(){
+          $("span[name=loading-price-bs]").html('');
+        })
+      }
     });
 
 
   /* auto-refresh ao escolher um ativo para o calculo da volatilidade implicita*/
-  $("input[name=inputStock-volatility]").focusout(function() {
-    /*obtem preço do ativo consultando o site bmf bovespa*/
-    $("span[name=loading-precoOpcao-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $("span[name=loading-strike-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $("span[name=loading-precoAtivo-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $.get("/calc/api/getOptionQuote/"+$(this).val().toUpperCase())
-      .done(function(data){
-        $("input[name=precoOpcao-vol]").val(data['price']);
-        $("input[name=strike-vol]").val(data['strike']);
-        $("input[name=precoAtivo-vol]").val(data['stockPrice']);
-        $("span[name=ativoObjeto]").text(data['stock']);
-       })
-      .fail(function(){
-        alert("Nao foi possível obter as informações da opção inserida.");
-      })
-      .always(function(){
-        $("span[name=loading-precoOpcao-vol]").html('');
-        $("span[name=loading-strike-vol]").html('');
-        $("span[name=loading-precoAtivo-vol]").html('');
-      })
+  $("input[name=inputStock-volatility]").keydown(function( event ) {
+    if (event.which == 13 || event.which == 9){
+      /*obtem preço do ativo consultando o site bmf bovespa*/
+      $("span[name=loading-precoOpcao-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+      $("span[name=loading-strike-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+      $("span[name=loading-precoAtivo-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+      $.get("/calc/api/getOptionQuote/"+$(this).val().toUpperCase())
+        .done(function(data){
+          $("input[name=precoOpcao-vol]").val(data['price']);
+          $("input[name=strike-vol]").val(data['strike']);
+          $("input[name=precoAtivo-vol]").val(data['stockPrice']);
+          $("span[name=ativoObjeto]").text(data['stock']);
+         })
+        .fail(function(){
+          alert("Nao foi possível obter as informações da opção inserida.");
+        })
+        .always(function(){
+          $("span[name=loading-precoOpcao-vol]").html('');
+          $("span[name=loading-strike-vol]").html('');
+          $("span[name=loading-precoAtivo-vol]").html('');
+        })
 
-    /*obtem a data de vencimento e a quantidade de dias uteis até o vencimento da opcao*/
-    $("span[name=loading-vencimento-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $("span[name=loading-dias-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $.get("/calc/api/getRemainingDays/"+$(this).val().toUpperCase())
-      .done(function(data){
-        $("span[name=vencimento]").text(data['exercise']);
-        $("input[name=dias-vol]").val(data['days']);
-       })
-      .fail(function(){
-        alert("Nao foi possível obter a data de exercicio do ativo escolhido.");
-      })
-      .always(function(){
-        $("span[name=loading-vencimento-vol]").html('');
-        $("span[name=loading-dias-vol]").html('');
-      })
+      /*obtem a data de vencimento e a quantidade de dias uteis até o vencimento da opcao*/
+      $("span[name=loading-vencimento-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+      $("span[name=loading-dias-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+      $.get("/calc/api/getRemainingDays/"+$(this).val().toUpperCase())
+        .done(function(data){
+          $("span[name=vencimento]").text(data['exercise']);
+          $("input[name=dias-vol]").val(data['days']);
+         })
+        .fail(function(){
+          alert("Nao foi possível obter a data de exercicio do ativo escolhido.");
+        })
+        .always(function(){
+          $("span[name=loading-vencimento-vol]").html('');
+          $("span[name=loading-dias-vol]").html('');
+        })
+      }
     });
 
   /*Ativa os tooltips*/
