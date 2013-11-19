@@ -11,6 +11,8 @@ urlpatterns = patterns('',
     url(r'^$', 'calc.views.home'),
     url(r'^api/getVolatility/(?P<stock>\w+)/$', 'calc.views.getVolatility'),
     url(r'^api/getQuote/(?P<stock>\w+)/$', 'calc.views.getQuote'),
+    url(r'^api/getOptionQuote/(?P<stock>\w+)/$', 'calc.views.getOptionQuote'),
+    url(r'^api/getRemainingDays/(?P<stock>\w+)/$', 'calc.views.getRemainingDays'),
     url(r'^book/(\w+)/$', 'calc.views.book'),
 )
 

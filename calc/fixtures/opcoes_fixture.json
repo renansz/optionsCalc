@@ -1,0 +1,913 @@
+[  {
+    "model": "calc.option",
+    "pk": 1,
+    "fields": {
+          "prefix": "ELPL",
+          "stock": "ELPL4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 2,
+    "fields": {
+          "prefix": "LLIS",
+          "stock": "LLIS3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 3,
+    "fields": {
+          "prefix": "CSNA",
+          "stock": "CSNA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 4,
+    "fields": {
+          "prefix": "ODPV",
+          "stock": "ODPV3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 5,
+    "fields": {
+          "prefix": "ECOR",
+          "stock": "ECOR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 6,
+    "fields": {
+          "prefix": "IGTA",
+          "stock": "IGTA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 7,
+    "fields": {
+          "prefix": "OSXB",
+          "stock": "OSXB3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 8,
+    "fields": {
+          "prefix": "EQTL",
+          "stock": "EQTL3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 9,
+    "fields": {
+          "prefix": "TBLE",
+          "stock": "TBLE3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 10,
+    "fields": {
+          "prefix": "MYPK",
+          "stock": "MYPK3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 11,
+    "fields": {
+          "prefix": "ALLL",
+          "stock": "ALLL3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 12,
+    "fields": {
+          "prefix": "ITUB",
+          "stock": "ITUB4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 13,
+    "fields": {
+          "prefix": "VAGR",
+          "stock": "VAGR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 14,
+    "fields": {
+          "prefix": "LREN",
+          "stock": "LREN3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 15,
+    "fields": {
+          "prefix": "DIRR",
+          "stock": "DIRR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 16,
+    "fields": {
+          "prefix": "VALE",
+          "stock": "VALE5"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 17,
+    "fields": {
+          "prefix": "LIGT",
+          "stock": "LIGT3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 18,
+    "fields": {
+          "prefix": "DASA",
+          "stock": "DASA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 19,
+    "fields": {
+          "prefix": "BRSR",
+          "stock": "BRSR6"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 20,
+    "fields": {
+          "prefix": "QGEP",
+          "stock": "QGEP3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 21,
+    "fields": {
+          "prefix": "CSAN",
+          "stock": "CSAN3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 22,
+    "fields": {
+          "prefix": "BRKM",
+          "stock": "BRKM5"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 23,
+    "fields": {
+          "prefix": "UGPA",
+          "stock": "UGPA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 24,
+    "fields": {
+          "prefix": "MPXE",
+          "stock": "MPXE3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 25,
+    "fields": {
+          "prefix": "BPHA",
+          "stock": "BPHA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 26,
+    "fields": {
+          "prefix": "GFSA",
+          "stock": "GFSA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 27,
+    "fields": {
+          "prefix": "ABEV",
+          "stock": "ABEV3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 28,
+    "fields": {
+          "prefix": "JBSS",
+          "stock": "JBSS3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 29,
+    "fields": {
+          "prefix": "PDGR",
+          "stock": "PDGR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 30,
+    "fields": {
+          "prefix": "CMIG",
+          "stock": "CMIG4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 31,
+    "fields": {
+          "prefix": "CTIP",
+          "stock": "CTIP3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 32,
+    "fields": {
+          "prefix": "AMAR",
+          "stock": "AMAR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 33,
+    "fields": {
+          "prefix": "OIBR",
+          "stock": "OIBR4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 34,
+    "fields": {
+          "prefix": "MILS",
+          "stock": "MILS3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 35,
+    "fields": {
+          "prefix": "GETI",
+          "stock": "GETI4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 36,
+    "fields": {
+          "prefix": "MPLU",
+          "stock": "MPLU3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 37,
+    "fields": {
+          "prefix": "JHSF",
+          "stock": "JHSF3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 38,
+    "fields": {
+          "prefix": "ELET",
+          "stock": "ELET3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 39,
+    "fields": {
+          "prefix": "BRFS",
+          "stock": "BRFS3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 40,
+    "fields": {
+          "prefix": "DTEX",
+          "stock": "DTEX3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 41,
+    "fields": {
+          "prefix": "KLBN",
+          "stock": "KLBN4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 42,
+    "fields": {
+          "prefix": "EZTC",
+          "stock": "EZTC3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 43,
+    "fields": {
+          "prefix": "GGBR",
+          "stock": "GGBR4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 44,
+    "fields": {
+          "prefix": "CRUZ",
+          "stock": "CRUZ3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 45,
+    "fields": {
+          "prefix": "WEGE",
+          "stock": "WEGE3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 46,
+    "fields": {
+          "prefix": "ENBR",
+          "stock": "ENBR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 47,
+    "fields": {
+          "prefix": "EMBR",
+          "stock": "EMBR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 48,
+    "fields": {
+          "prefix": "BRML",
+          "stock": "BRML3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 49,
+    "fields": {
+          "prefix": "TIMP",
+          "stock": "TIMP3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 50,
+    "fields": {
+          "prefix": "BEEF",
+          "stock": "BEEF3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 51,
+    "fields": {
+          "prefix": "VLID",
+          "stock": "VLID3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 52,
+    "fields": {
+          "prefix": "RADL",
+          "stock": "RADL3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 53,
+    "fields": {
+          "prefix": "SBSP",
+          "stock": "SBSP3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 54,
+    "fields": {
+          "prefix": "BVMF",
+          "stock": "BVMF3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 55,
+    "fields": {
+          "prefix": "BISA",
+          "stock": "BISA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 56,
+    "fields": {
+          "prefix": "ESTC",
+          "stock": "ESTC3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 57,
+    "fields": {
+          "prefix": "MRFG",
+          "stock": "MRFG3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 58,
+    "fields": {
+          "prefix": "HRTP",
+          "stock": "HRTP3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 59,
+    "fields": {
+          "prefix": "GRND",
+          "stock": "GRND3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 60,
+    "fields": {
+          "prefix": "BRPR",
+          "stock": "BRPR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 61,
+    "fields": {
+          "prefix": "AEDU",
+          "stock": "AEDU3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 62,
+    "fields": {
+          "prefix": "ARTR",
+          "stock": "ARTR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 63,
+    "fields": {
+          "prefix": "SLCE",
+          "stock": "SLCE3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 64,
+    "fields": {
+          "prefix": "MDIA",
+          "stock": "MDIA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 65,
+    "fields": {
+          "prefix": "CPFE",
+          "stock": "CPFE3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 66,
+    "fields": {
+          "prefix": "CYRE",
+          "stock": "CYRE3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 67,
+    "fields": {
+          "prefix": "PSSA",
+          "stock": "PSSA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 68,
+    "fields": {
+          "prefix": "JFEN",
+          "stock": "JFEN3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 69,
+    "fields": {
+          "prefix": "NATU",
+          "stock": "NATU3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 70,
+    "fields": {
+          "prefix": "HYPE",
+          "stock": "HYPE3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 71,
+    "fields": {
+          "prefix": "TRPL",
+          "stock": "TRPL4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 72,
+    "fields": {
+          "prefix": "CSMG",
+          "stock": "CSMG3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 73,
+    "fields": {
+          "prefix": "QUAL",
+          "stock": "QUAL3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 74,
+    "fields": {
+          "prefix": "RENT",
+          "stock": "RENT3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 75,
+    "fields": {
+          "prefix": "MRVE",
+          "stock": "MRVE3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 76,
+    "fields": {
+          "prefix": "POMO",
+          "stock": "POMO4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 77,
+    "fields": {
+          "prefix": "EVEN",
+          "stock": "EVEN3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 78,
+    "fields": {
+          "prefix": "OGXP",
+          "stock": "OGXP3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 79,
+    "fields": {
+          "prefix": "CCXC",
+          "stock": "CCXC3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 80,
+    "fields": {
+          "prefix": "CCRO",
+          "stock": "CCRO3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 81,
+    "fields": {
+          "prefix": "BBAS",
+          "stock": "BBAS3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 82,
+    "fields": {
+          "prefix": "RSID",
+          "stock": "RSID3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 83,
+    "fields": {
+          "prefix": "VIVT",
+          "stock": "VIVT4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 84,
+    "fields": {
+          "prefix": "BTOW",
+          "stock": "BTOW3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 85,
+    "fields": {
+          "prefix": "GOAU",
+          "stock": "GOAU4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 86,
+    "fields": {
+          "prefix": "CIEL",
+          "stock": "CIEL3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 87,
+    "fields": {
+          "prefix": "GOLL",
+          "stock": "GOLL4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 88,
+    "fields": {
+          "prefix": "RAPT",
+          "stock": "RAPT4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 89,
+    "fields": {
+          "prefix": "CPLE",
+          "stock": "CPLE6"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 90,
+    "fields": {
+          "prefix": "MGLU",
+          "stock": "MGLU3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 91,
+    "fields": {
+          "prefix": "BBSE",
+          "stock": "BBSE3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 92,
+    "fields": {
+          "prefix": "PCAR",
+          "stock": "PCAR4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 93,
+    "fields": {
+          "prefix": "BBDC",
+          "stock": "BBDC4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 94,
+    "fields": {
+          "prefix": "LLXL",
+          "stock": "LLXL3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 95,
+    "fields": {
+          "prefix": "SUZB",
+          "stock": "SUZB5"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 96,
+    "fields": {
+          "prefix": "AMBV",
+          "stock": "AMBV4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 97,
+    "fields": {
+          "prefix": "USIM",
+          "stock": "USIM5"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 98,
+    "fields": {
+          "prefix": "TOTS",
+          "stock": "TOTS3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 99,
+    "fields": {
+          "prefix": "CESP",
+          "stock": "CESP6"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 100,
+    "fields": {
+          "prefix": "MULT",
+          "stock": "MULT3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 101,
+    "fields": {
+          "prefix": "PETR",
+          "stock": "PETR4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 102,
+    "fields": {
+          "prefix": "ALSC",
+          "stock": "ALSC3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 103,
+    "fields": {
+          "prefix": "ITSA",
+          "stock": "ITSA4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 104,
+    "fields": {
+          "prefix": "FLRY",
+          "stock": "FLRY3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 105,
+    "fields": {
+          "prefix": "HGTX",
+          "stock": "HGTX3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 106,
+    "fields": {
+          "prefix": "TCSA",
+          "stock": "TCSA3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 107,
+    "fields": {
+          "prefix": "KROT",
+          "stock": "KROT3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 108,
+    "fields": {
+          "prefix": "BRIN",
+          "stock": "BRIN3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 109,
+    "fields": {
+          "prefix": "BRAP",
+          "stock": "BRAP4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 110,
+    "fields": {
+          "prefix": "LAME",
+          "stock": "LAME4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 111,
+    "fields": {
+          "prefix": "BBRK",
+          "stock": "BBRK3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 112,
+    "fields": {
+          "prefix": "FIBR",
+          "stock": "FIBR3"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 113,
+    "fields": {
+          "prefix": "ALPA",
+          "stock": "ALPA4"
+    }
+  },
+    {
+    "model": "calc.option",
+    "pk": 114,
+    "fields": {
+          "prefix": "MMXM",
+          "stock": "MMXM3"
+    }
+  }]
+  

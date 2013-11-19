@@ -1,4 +1,4 @@
-var ano_base = 360;
+var ano_base = 252;
 
 function getDecimalValue(s){
     return parseFloat(s.replace(/\,/,".")).toFixed(2);
@@ -87,24 +87,22 @@ function selecionaPainel(painel){
   });
 }
 
-function impliedVolatility(PutCallFlag, S, X, T, r, v){
+function impliedVolatility(PutCallFlag, S, X, T, r, v, marketPrice){
   /*initial guess from bovespa */
   var error = 0.0002;
   var sigma = 0.0;
   var sigma_zero = -100.0;
   var bs = 0.0; 
-  var max_iterations = 10;
+  var max_iterations = 15;
   var i = 0;
-  var market_price = 0.0;
   
-  /*TODO get market price from Yahoo / Bovespa */
-  /* TODO initial guess */
-  v == 0 ? sigma = 0.1 : sigma = v;
+  /* valor inicial aproximado da média das empresas que negociam opcoes -> aprox. 25% */
+  v == 0 ? sigma = 0.25 : sigma = v;
   
   while ( (Math.abs((sigma - sigma_zero)/sigma) > error) || (i< 10)){
-    bs = BlackScholes(PutCallFlag,S,X,T,r,sigma)
-    sigma_zero = sigma
-    sigma = sigma - (bs[0] - 1.974)/bs[1]['vega'];
+    bs = BlackScholes(PutCallFlag,S,X,T,r,sigma);
+    sigma_zero = sigma;
+    sigma = sigma - (bs[0] - marketPrice)/bs[1]['vega'];
     i++;
   }
   return sigma;
@@ -119,6 +117,7 @@ $(document).ready(function() {
     });
     $(".painel[id="+$(this).text().toLowerCase()+"]").removeClass("hidden");
   });
+  
   
   $("button[name=calcular]").click(function(){
   /*S= Stock price, X = strike, T = time (days /year), r= risk free (year), v = volatility(year), vi = intriseco , ve= extrinseco*/
@@ -141,13 +140,26 @@ $(document).ready(function() {
       $.each(bs[1], function(i,e){
           $("span[name="+i+"]").text(parseFloat(e).toFixed(4));
       });
+      
+  });
+  
+  $("button[name=calcular-vol]").click(function(){
+  /*S= Stock price, X = strike, T = time (days /year), r= risk free (year), v = volatility(year), vi = intriseco , ve= extrinseco*/
+      var tipo = "c";
+      var S = Number(getDecimalValue($("input[name=precoAtivo-vol]").val()));
+      var X = Number(getDecimalValue($("input[name=strike-vol]").val()));
+      var T = Number($("input[name=dias-vol]").val()/ano_base);
+      var r = Number(getDecimalValue($("input[name=txJuros]").val())/100.0);
+      var marketPrice = Number(getDecimalValue($("input[name=precoOpcao-vol]").val()));
+      var im = impliedVolatility(tipo, S, X, T, r, 0.0,marketPrice);
+
+      $("span[name=volatilidadeImplicita]").text(parseFloat(im).toFixed(4));
   });
   
   /* auto-refresh ao escolher um ativo*/
   $("input[name=inputStock]").focusout(function() {
     /*obtem volatilidade do site da bovespa (periodo anualizado de 3 meses por padrao)*/
-    var loading = $("span[name=loading]").html();
-    $("span[name=loading]").html('<img src="/static/img/ajax-loader.gif" />');
+    $("span[name=loading-vol-bs]").html('<img src="/static/img/ajax-loader-sm.gif" />');
     $.get("/calc/api/getVolatility/"+$(this).val())
       .done(function(data){
          $("input[name=volatilidade]").val(data['volatility']);
@@ -156,24 +168,59 @@ $(document).ready(function() {
         alert("Nao foi possível obter a volatilidade do ativo através do site da bovespa");
       })
       .always(function(){
-        $("span[name=loading]").html(loading);
+        $("span[name=loading-vol-bs]").html('');
       })
-    });
-
-  /* auto-refresh ao escolher um ativo para obter o preço*/
-  $("input[name=inputStock-volatility]").focusout(function() {
-    /*obtem preço do ativo consultando o site bmf bovespa*/
-    var loading = $("span[name=loading-vol]").html();
-    $("span[name=loading-vol]").html('<img src="/static/img/ajax-loader.gif" />');
+    /*obtem preço do papel site da bovespa*/
+    $("span[name=loading-price-bs]").html('<img src="/static/img/ajax-loader-sm.gif" />');
     $.get("/calc/api/getQuote/"+$(this).val())
       .done(function(data){
-         $("span[name=precoOpcao]").text(data['price']);
+         $("input[name=precoAtivo]").val(data['price']);
        })
       .fail(function(){
         alert("Nao foi possível obter a cotação do ativo através do site da bovespa");
       })
       .always(function(){
-        $("span[name=loading-vol]").html(loading);
+        $("span[name=loading-price-bs]").html('');
+      })
+    });
+
+
+  /* auto-refresh ao escolher um ativo para o calculo da volatilidade implicita*/
+  $("input[name=inputStock-volatility]").focusout(function() {
+    /*obtem preço do ativo consultando o site bmf bovespa*/
+    $("span[name=loading-precoOpcao-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-strike-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-precoAtivo-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
+    $.get("/calc/api/getOptionQuote/"+$(this).val())
+      .done(function(data){
+        $("input[name=precoOpcao-vol]").val(data['price']);
+        $("input[name=strike-vol]").val(data['strike']);
+        $("input[name=precoAtivo-vol]").val(data['stockPrice']);
+        $("span[name=ativoObjeto]").text(data['stock']);
+       })
+      .fail(function(){
+        alert("Nao foi possível obter as informações da opção inserida.");
+      })
+      .always(function(){
+        $("span[name=loading-precoOpcao-vol]").html('');
+        $("span[name=loading-strike-vol]").html('');
+        $("span[name=loading-precoAtivo-vol]").html('');
+      })
+
+    /*obtem a data de vencimento e a quantidade de dias uteis até o vencimento da opcao*/
+    $("span[name=loading-vencimento-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-dias-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
+    $.get("/calc/api/getRemainingDays/"+$(this).val())
+      .done(function(data){
+        $("span[name=vencimento]").text(data['exercise']);
+        $("input[name=dias-vol]").val(data['days']);
+       })
+      .fail(function(){
+        alert("Nao foi possível obter a data de exercicio do ativo escolhido.");
+      })
+      .always(function(){
+        $("span[name=loading-vencimento-vol]").html('');
+        $("span[name=loading-dias-vol]").html('');
       })
     });
 

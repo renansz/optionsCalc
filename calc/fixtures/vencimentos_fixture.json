@@ -1,0 +1,127 @@
+[  {
+    "model": "calc.exercise",
+    "pk": 1,
+    "fields": {
+          "year": 2013,
+          "serie": "A",
+          "date": "2013-01-21"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 2,
+    "fields": {
+          "year": 2013,
+          "serie": "B",
+          "date": "2013-02-18"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 3,
+    "fields": {
+          "year": 2013,
+          "serie": "C",
+          "date": "2013-03-18"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 4,
+    "fields": {
+          "year": 2013,
+          "serie": "D",
+          "date": "2013-04-15"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 5,
+    "fields": {
+          "year": 2013,
+          "serie": "E",
+          "date": "2013-05-20"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 6,
+    "fields": {
+          "year": 2013,
+          "serie": "F",
+          "date": "2013-06-17"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 7,
+    "fields": {
+          "year": 2013,
+          "serie": "G",
+          "date": "2013-07-15"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 8,
+    "fields": {
+          "year": 2013,
+          "serie": "H",
+          "date": "2013-08-19"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 9,
+    "fields": {
+          "year": 2013,
+          "serie": "I",
+          "date": "2013-09-16"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 10,
+    "fields": {
+          "year": 2013,
+          "serie": "J",
+          "date": "2013-10-21"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 11,
+    "fields": {
+          "year": 2013,
+          "serie": "K",
+          "date": "2013-11-18"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 12,
+    "fields": {
+          "year": 2013,
+          "serie": "L",
+          "date": "2013-12-16"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 13,
+    "fields": {
+          "year": 2014,
+          "serie": "A",
+          "date": "2014-01-20"
+    }
+  },
+    {
+    "model": "calc.exercise",
+    "pk": 14,
+    "fields": {
+          "year": 2014,
+          "serie": "B",
+          "date": "2014-02-17"
+    }
+  }]
+  
