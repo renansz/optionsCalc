@@ -160,7 +160,7 @@ $(document).ready(function() {
   $("input[name=inputStock]").focusout(function() {
     /*obtem volatilidade do site da bovespa (periodo anualizado de 3 meses por padrao)*/
     $("span[name=loading-vol-bs]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $.get("/calc/api/getVolatility/"+$(this).val())
+    $.get("/calc/api/getVolatility/"+$(this).val().toUpperCase())
       .done(function(data){
          $("input[name=volatilidade]").val(data['volatility']);
        })
@@ -191,7 +191,7 @@ $(document).ready(function() {
     $("span[name=loading-precoOpcao-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
     $("span[name=loading-strike-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
     $("span[name=loading-precoAtivo-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $.get("/calc/api/getOptionQuote/"+$(this).val())
+    $.get("/calc/api/getOptionQuote/"+$(this).val().toUpperCase())
       .done(function(data){
         $("input[name=precoOpcao-vol]").val(data['price']);
         $("input[name=strike-vol]").val(data['strike']);
@@ -210,7 +210,7 @@ $(document).ready(function() {
     /*obtem a data de vencimento e a quantidade de dias uteis até o vencimento da opcao*/
     $("span[name=loading-vencimento-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
     $("span[name=loading-dias-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
-    $.get("/calc/api/getRemainingDays/"+$(this).val())
+    $.get("/calc/api/getRemainingDays/"+$(this).val().toUpperCase())
       .done(function(data){
         $("span[name=vencimento]").text(data['exercise']);
         $("input[name=dias-vol]").val(data['days']);

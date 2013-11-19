@@ -17,7 +17,6 @@ from workdays import networkdays
 from datetime import date
 
 from urllib2 import urlopen
-from HTMLParser import HTMLParser
 from BeautifulSoup import BeautifulSoup
 
 holidays = [date(2013,11,20),date(2013,12,24),date(2013,12,25),date(2013,12,31),date(2014,01,01),date(2014,03,03),date(2014,03,04),date(2014,04,18),date(2014,04,21),date(2014,05,01),date(2014,06,19),date(2014,07,9),date(2014,11,20),date(2014,12,24),date(2014,12,25),date(2014,12,31),date(2015,01,01)]
@@ -69,7 +68,9 @@ def getOptionQuote(request,stock):
       soup = BeautifulSoup(data.read())
       data.close()
       pattern = re.compile(r"\d+,\d+")
+
       strike = pattern.search(soup.papel['descricao']).group(0)
+      print 'aquiii222'
       if not strike:
         strike = stock[-2:]
       price = pattern.search(soup.papel['valor_ultimo']).group(0)
@@ -96,7 +97,6 @@ def getRemainingDays(request,stock):
     exercise = Exercise.objects.filter(Q(serie=serie,date__gte=date.today()))[0]
     days = networkdays(date.today(),exercise.date,holidays)
     response = {'status':'ok', 'days':days-1, 'exercise': exercise.date.strftime("%d/%m/%Y")}
-    
     return JsonResponse(response, 201)
     
     
