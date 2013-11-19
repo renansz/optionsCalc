@@ -159,7 +159,7 @@ $(document).ready(function() {
   /* auto-refresh ao escolher um ativo*/
   $("input[name=inputStock]").focusout(function() {
     /*obtem volatilidade do site da bovespa (periodo anualizado de 3 meses por padrao)*/
-    $("span[name=loading-vol-bs]").html('<img src="/static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-vol-bs]").html('<img src="../static/img/ajax-loader-sm.gif" />');
     $.get("/calc/api/getVolatility/"+$(this).val())
       .done(function(data){
          $("input[name=volatilidade]").val(data['volatility']);
@@ -171,7 +171,7 @@ $(document).ready(function() {
         $("span[name=loading-vol-bs]").html('');
       })
     /*obtem preço do papel site da bovespa*/
-    $("span[name=loading-price-bs]").html('<img src="/static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-price-bs]").html('<img src="../static/img/ajax-loader-sm.gif" />');
     $.get("/calc/api/getQuote/"+$(this).val())
       .done(function(data){
          $("input[name=precoAtivo]").val(data['price']);
@@ -188,9 +188,9 @@ $(document).ready(function() {
   /* auto-refresh ao escolher um ativo para o calculo da volatilidade implicita*/
   $("input[name=inputStock-volatility]").focusout(function() {
     /*obtem preço do ativo consultando o site bmf bovespa*/
-    $("span[name=loading-precoOpcao-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
-    $("span[name=loading-strike-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
-    $("span[name=loading-precoAtivo-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-precoOpcao-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-strike-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-precoAtivo-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
     $.get("/calc/api/getOptionQuote/"+$(this).val())
       .done(function(data){
         $("input[name=precoOpcao-vol]").val(data['price']);
@@ -208,8 +208,8 @@ $(document).ready(function() {
       })
 
     /*obtem a data de vencimento e a quantidade de dias uteis até o vencimento da opcao*/
-    $("span[name=loading-vencimento-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
-    $("span[name=loading-dias-vol]").html('<img src="/static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-vencimento-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
+    $("span[name=loading-dias-vol]").html('<img src="../static/img/ajax-loader-sm.gif" />');
     $.get("/calc/api/getRemainingDays/"+$(this).val())
       .done(function(data){
         $("span[name=vencimento]").text(data['exercise']);
