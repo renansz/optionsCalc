@@ -11,6 +11,10 @@ from decimal import Decimal
 import traceback
 import datetime
 
+import math
+from scipy.stats import norm
+from numpy import inf
+
 import json
 import re
 from workdays import networkdays
@@ -70,7 +74,6 @@ def getOptionQuote(request,stock):
       pattern = re.compile(r"\d+,\d+")
 
       strike = pattern.search(soup.papel['descricao']).group(0)
-      print 'aquiii222'
       if not strike:
         strike = stock[-2:]
       price = pattern.search(soup.papel['valor_ultimo']).group(0)
@@ -99,5 +102,101 @@ def getRemainingDays(request,stock):
     response = {'status':'ok', 'days':days-1, 'exercise': exercise.date.strftime("%d/%m/%Y")}
     return JsonResponse(response, 201)
     
+# Black and Scholes
+def BlacknScholes(request,S=0,K=0,T=0,r=0,v=0,callFlag=True,year=252,internal=False):
+  """ Retorna um vetor com o premio teorico da opcao mais as gregas relacionadas 
+  ao calculo a partir dos parametros fornecidos"""  
+
+  if not internal:
+    #se o tipo for passado como parametro , configura o callFlag -> True = Call , Flase = Put
+    #valor default = Call / True
+    if request.GET.get('callFlag'):
+      callFlag = request.GET.get('callFlag') 
     
+    # se nao for passada a base de dias no ano, considera 252
+    if request.GET.get('year'):
+      year = request.GET.get('year')
     
+    S = float(request.GET.get('S'))
+    K = float(request.GET.get('K'))
+    T = float(request.GET.get('T'))/year
+    r = float(request.GET.get('r'))
+    v = float(request.GET.get('v'))
+  else:
+    T = float(T)/year
+  
+  response = {'premium': 0 , 'greeks' : {}}
+  d1 = (math.log(S / K) + (r + v * v / 2.0) * T) / (v * math.sqrt(T))
+  d2 = d1 - v * math.sqrt(T)
+  
+  response['greeks']['gamma'] = norm.pdf(d1) / (S * v * math.sqrt(T))
+    
+  if callFlag:
+    response['premium'] = S * norm.cdf(d1)-K * math.exp(-r * T) * norm.cdf(d2)
+    response['greeks']['delta'] = norm.cdf(d1)
+    response['greeks']['vega'] = S * norm.pdf(d1) * math.sqrt(T)/100.0
+    response['greeks']['theta'] = (-S * norm.pdf(d1) * v / (2.0 * math.sqrt(T)) - r * K * math.exp(-r * T) * norm.cdf(d2))/year 
+    response['greeks']['rho'] = K * T * math.exp(-r * T) * norm.cdf(d2)/100.0
+    response['status'] = 'ok'
+  else:
+    response['premium'] = K * math.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
+    response['greeks']['delta'] = -norm.cdf(-d1)
+    response['greeks']['vega'] = K * math.exp(-r * T) * norm.pdf(d2) * math.sqrt(T)/100.0
+    response['greeks']['theta'] = (-S * norm.pdf(d1) * v / (2.0 * math.sqrt(T)) + r * K * math.exp(-r * T) * norm.cdf(-d2))/year
+    response['greeks']['rho'] = -K * T * math.exp(-r * T) * norm.cdf(-d2)/100.0
+    response['status'] = 'ok'
+  
+  if internal:
+    return response
+  else:
+    return JsonResponse(response, 201)
+
+#volatilidade implicita usando método de aproximacao de newton
+#def impliedVolatility(S, K, T, r, realPremium,sigma = 0, CallFlag=True,max_iterations=20):
+def impliedVolatility(request,max_iterations = 20):
+  """ Retorna a volatilidade implícita do ativo calculando o black n scholes reverso 
+  desde que a funcao de newton seja convergente para o intervalo de preco em questao.
+  Retorna 0 caso as iterações nao convirjam para o resultado"""  
+
+  #se o tipo for passado como parametro , configura o callFlag -> True = Call , Flase = Put
+  #valor default = Call / True
+  callFlag = True if not request.GET.get('callFlag') else request.GET.get('callFlag') 
+
+  # se nao for passada a base de dias no ano, considera 252
+  year = 252 if not request.GET.get('year') else request.GET.get('year')
+
+  #se for passado o numero de iteração, lê
+  if request.GET.get('max_iterations'): max_iterations = request.GET.get('max_iterations')
+
+  #recebendo parametros e garantindo que todos os numeros estejam em formato float
+  S = float(request.GET.get('S'))
+  K = float(request.GET.get('K'))
+  T = float(request.GET.get('T'))
+  r = float(request.GET.get('r'))
+  realPremium = float(request.GET.get('realPremium'))
+  
+  response = {}
+  error = 0.00002
+  # valor inicial sugerido (retirei do artigo que li)
+  #sigma = math.sqrt(2.0*math.pi)*realPremium/S
+  # volatilidade mais usual no mercado 25%
+  sigma = 0.25  
+  sigma_zero = 0.0
+  i = 0
+  try:
+    while abs((sigma - sigma_zero)/sigma) > error and i < max_iterations:
+      bs = BlacknScholes(request=None,S=S,K=K,T=T,r=r,v=sigma,callFlag=callFlag,year=year,internal=True);
+      sigma_zero = sigma;
+      sigma = sigma - (bs['premium'] - realPremium)/(bs['greeks']['vega']*100);
+      i += 1;
+  except:
+    sigma = 0.0
+  
+  if sigma == inf or sigma == -inf or i == max_iterations or sigma == 0.0:
+    response['status'] = 'error'
+    response['sigma'] = 0.0
+  else:
+    response['status'] = 'ok'
+    response['sigma'] = sigma
+  
+  return JsonResponse(response, 201)
