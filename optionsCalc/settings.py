@@ -24,7 +24,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['renansz.no-ip.org']
+ALLOWED_HOSTS = ['renansz.no-ip.org','renansz-xen1g..no-ip']
 
 
 # Application definition
